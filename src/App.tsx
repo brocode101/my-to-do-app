@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { TodoInput } from './components/TodoInput';
 import { TodoItem } from './components/TodoItem';
 import { TodoFilter } from './components/TodoFilter';
+import { ThemeToggle } from './components/ThemeToggle';
+import { useTheme } from './hooks/useTheme';
 import { Todo, FilterType } from './types';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Calendar, CheckCircle2, ListTodo } from 'lucide-react';
 
 function App() {
+  const { theme, toggleTheme } = useTheme();
+  
   const [todos, setTodos] = useState<Todo[]>(() => {
     const saved = localStorage.getItem('todos');
     return saved ? JSON.parse(saved) : [];
@@ -70,10 +74,14 @@ function App() {
               </p>
             </div>
             
-            {/* Progress Circle (Mini) */}
-            <div className="hidden sm:flex flex-col items-end">
-               <div className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Daily Progress</div>
-               <div className="text-2xl font-bold text-indigo-600">{progress}%</div>
+            <div className="flex items-center gap-4 sm:gap-6">
+              {/* Progress Circle (Mini) */}
+              <div className="hidden sm:flex flex-col items-end">
+                 <div className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Daily Progress</div>
+                 <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{progress}%</div>
+              </div>
+
+              <ThemeToggle theme={theme} onToggle={toggleTheme} />
             </div>
           </div>
         </header>
